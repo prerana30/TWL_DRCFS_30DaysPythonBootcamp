@@ -13,7 +13,7 @@ while count < 5:
         print("so it's a tie ")
 
     elif user_choice == 'rock':
-        if user_choice == 'paper':
+        if computer == 'paper':
             print("option chosen by computer is",computer)
             print("so you lost.")
             computer_score += 1
