@@ -89,9 +89,6 @@ def option1():
  # Print to terminal
     print("Password ranking complete!")
 
-
-
-
     print('#'*80)
         # [INFO] Be sure to change userpwds with the name of variable that you give to the list of passwords
     print('[INFO] '+'Number of passwords checked:',str(len(usrpwds))) 
@@ -186,13 +183,12 @@ def main():
             break
         elif inp == 1:
             option1()
-            
         elif inp == 2:
             option2()
 
         ## END CODE HERE
 
 
-# DONOT TOUCH THESE LINES
+# DONOT TOUCH THESE LINES 
 if __name__=='__main__':
     main()
