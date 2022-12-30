@@ -1,55 +1,81 @@
 import requests
-import csv
 from bs4 import BeautifulSoup
+import csv
 
 class RedditScraper:
-    def __init__(self, subreddit, thread_id):
-        # Set the subreddit name and thread ID as instance variables
-        self.subreddit = subreddit
-        self.thread_id = thread_id
-        # Set the user agent as a class variable
-        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36'}
-        # Initialize an empty dictionary to store the thread data
+    def __init__(self, url):
+        self.url = url
+        self.subreddit = " "
+        self.title = ""
+        self.upvotes =""
+        self.comments =""
+        self.username =""
+        self.timestamp =""
+        self.content =""
+        self.media  = ""
         self.thread_data = {}
+    
+    def scrape(self):
+        try:
+            # Send a GET request to the URL
+            page = requests.get(self.url)
 
-    def scrape_thread(self):
-        # Make a GET request to the thread URL
-        response = requests.get(f'https://www.reddit.com/r/chennai/comments/z8u42i/what_do_you_guys_think_about_people_who_feed/', headers=self.headers)
-        # Check the status code of the response to make sure the request was successful
-        if response.status_code == 200:
-            data_str = ""
-            # Parse the HTML of the page
-            soup = BeautifulSoup(response.text, 'html.parser')
-            # Extract the subreddit name
-            for item in self.thread_data['subreddit'] : soup.find('a', class_="_2wzi-W7JiZ7A6U6aFvfvSR").text
-            data_str = data_str + item
-            # Extract the thread title
-            self.thread_data['thread_title'] = soup.find('h1', class_="_eYtD2XCVieq6emjKBH3m").text
-            # Extract the number of upvotes
-            self.thread_data['upvotes'] = soup.find('div', class_='_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo _2iiIcja5xIjg-5sI4ECvcV').text
-            # Extract the number of comments
-            self.thread_data['comments'] = soup.find('span', class_="FHCV02u6Cp2zYL0fhQPsO")
-            # Extract the image or video URL
-            image_or_video = soup.find('div', class_='_2_tDEnGMLxpM6uOa2kaDB3 ImageBox-image media-element _1XWObl-3b9tPy64oaG6fax')
-            if image_or_video:
-                if image_or_video.find('img'):
-                    # Extract the URL of the image
-                    self.thread_data['image_or_video_url'] = image_or_video.find('img')['src']
-                elif image_or_video.find('video'):
-                    # Extract the URL of the video
-                    self.thread_data['image_or_video_url'] = image_or_video.find('video')['src']
-        # If the request was not successful, print an error message
-        else:
-            print('Error:', response.status_code)
+            # Parse the HTML content of the page
+            soup = BeautifulSoup(page.content, 'html.parser')
+        except requests.exceptions.RequestException as e:
+            print(f"Error making request: {e}")
+            return
+        except Exception as e:
+            print(f"Error parsing HTML: {e}")
+            return
 
-    def write_to_csv(self):
-    # Open the CSV file in write mode
-     with open('redditgahana.csv', 'w', newline='') as csv_file:
-        # Create a CSV writer object
-        writer = csv.writer(csv_file)
-        # Write the column names to the CSV file
-        writer.writerow(['subreddit', 'thread_title', 'upvotes', 'comments', 'image_or_video_url'])
-        for key, value in self.thread_data.items():
-            # Write the key-value pair to the CSV file as a row
-            writer.writerow([key, value])
-            # 
+        # Extract the subreddit name from the page
+        subreddit_element = soup.find('span', class_='_2wzi-W7JiZ7A6U6aFvfvSR')
+        if subreddit_element:
+            self.subreddit = subreddit_element.text
+
+        # Extract the thread title from the page
+        title_element = soup.find('h1', class_='_eYtD2XCVieq6emjKBH3m')
+        if title_element:
+            self.title = title_element.text
+
+        # Extract the number of upvotes from the page
+        upvotes_element = soup.find('div', class_='_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo _2iiIcja5xIjg-5sI4ECvcV')
+        if upvotes_element:
+            self.upvotes = upvotes_element
+
+        # Extract the number of comments from the page
+        comments_element = soup.find('span', class_='FHCV02u6Cp2zYL0fhQPsO')
+        if comments_element:
+            self.comments = comments_element.text
+
+        # Extract the username of the person who posted the thread
+        username_element = soup.find('a', class_='_2tbHP6ZydRpjI44J3syuqC  _23wugcdiaj44hdfugIAlnX oQctV4n0yUb0uiHDdGnmE')
+        if username_element:
+            self.username = username_element.text
+
+        # Extract the timestamp of the thread
+        timestamp_element = soup.find('time', class_='_2VF2J19pUIMSLJFky-7PEI')
+        if timestamp_element:
+            self.timestamp = timestamp_element.text
+
+        # Extract the content of the thread
+        content_element = soup.find('div', class_='_3AStxql1mQsrZuUIFP9xSg s1y8gf4b-0 gXUyBJ')
+        if content_element:
+            self.content = content_element
+        
+        media_url = soup.find('img', class_='_2_tDEnGMLxpM6uOa2kaDB3 ImageBox-image media-element _1XXWObl-3b9tPy64oaG6fax')
+        self.media = media_url.get('source') if media_url else None
+
+    def to_csv(self, filename):
+     with open(filename, 'w') as file:
+            file.write(f"{self.subreddit},{self.title},{self.upvotes},{self.comments},{self.media}\n")
+
+# Create a RedditScraper object with the given URL
+scraper = RedditScraper('https://www.reddit.com/r/chennai/comments/z8u42i/what_do_you_guys_think_about_people_who_feed/')
+
+# Scrape the data from the page
+scraper.scrape()
+
+# Write the data to a CSV file
+scraper.to_csv('redditgahana.csv')
