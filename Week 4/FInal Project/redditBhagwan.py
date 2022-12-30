@@ -52,3 +52,4 @@ class RedditScraper:
         for key, value in self.thread_data.items():
             # Write the key-value pair to the CSV file as a row
             writer.writerow([key, value])
+            # 
