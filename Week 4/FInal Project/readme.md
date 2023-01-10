@@ -13,8 +13,7 @@ This is how we can scrape any subthread of a reddit:
 
 # 1. We need to first visit the subreddit and inspect it.
 # 2. |For example: If you want to want to see title you can just right click near title of that specific subreddit and you will get the following information:
-
-[Screenshot (368)](<blockquote class="imgur-embed-pub" lang="en" data-id="a/atbeVYJ" data-context="false" ><a href="//imgur.com/a/atbeVYJ"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>)
+[Imgur](https://imgur.com/wQJhxtl)
 Yeah! u got to know
 you can find title in h1 of  class_='_eYtD2XCVieq6emjKBH3m '
 
