@@ -13,9 +13,10 @@ This is how we can scrape any subthread of a reddit:
 
 # 1. We need to first visit the subreddit and inspect it.
 # 2. |For example: If you want to want to see title you can just right click near title of that specific subreddit and you will get the following information:
-![Alt text](../../../../../Pictures/Screenshots/Screenshot%20(368).png)
 
-Yeah! you got to know
+Yeah! u got to know
+![Screenshot (368)](https://user-images.githubusercontent.com/86253756/211476057-1cb6543a-f9e0-4379-8b0e-82e9de3667ca.png)
+
 you can find title in h1 of  class_='_eYtD2XCVieq6emjKBH3m '
 
 # 3. Now start to code by first importing necessary libraries, in our code by importing :
