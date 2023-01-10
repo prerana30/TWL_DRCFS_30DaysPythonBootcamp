@@ -53,7 +53,7 @@ In this code, find() method of BeautifulSoup object to search for an HTML elemen
 # 7.In this code: This code defines a method called to_csv that writes the data of a RedditScraper instance to a CSV file. 
   def to_csv(self, filename):
    with open(filename, 'a') as file:
-     file.write(f"{self.subreddit},{self.title},{self.upvotes},{self.comments},{self.media}\n") describe this code 
+   file.write(f"{self.subreddit},{self.title},{self.upvotes},{self.comments},{self.media}\n") 
 The method takes a single argument, filename, which is the name of the CSV file to write to.'a' opens the file in append mode ,and writes the data to the file using the write() method. Scraped datas are stored respectively. For example title in self.title.
 
 # 8. FinaLLY !!!!
