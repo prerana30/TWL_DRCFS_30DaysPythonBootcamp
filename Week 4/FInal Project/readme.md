@@ -64,4 +64,4 @@ Then, the scrape() method of the scraper object is called to scrape the data fro
 
 Finally, the to_csv() method of the scraper object is called to write the scraped data to a CSV file named 'redditgahana.csv'.
 
-# i HOPE YOU FIND THIS USEFUL.Thank you :)
+# I HOPE YOU FIND THIS USEFUL.Thank you :)
